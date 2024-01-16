@@ -1,11 +1,42 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="grid.css">
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>King of Escape</title>
+    <link rel="stylesheet" href="grid.css">
+</head>
 <body>
-    <canvas id="quoridorCanvas" width="400" height="400"></canvas>
+    <div class="logo-container">
+        <img src="Image1.png" alt="Left Logo" class="logo">
+        <h1>KING OF ESCAPE</h1> 
+        <img src="Image1.png" alt="Right Logo" class="logo">
+    </div>
+    <button class="login-button">LOGIN</button>
+</div>
 
-<script src="grid.js"></script></script>
+    <div class="game-grid">
+        <canvas id="quoridorCanvas" width="400" height="400">
+            <!-- Your game's canvas element where the grid is drawn -->
+        </canvas>
+    </div>
+
+    <div class="actions">
+        <p>Vous avez fait une action</p>
+        <p>L'adversaire à fait une autre action</p>
+        <p>Vous avez fait une action</p>
+        <!-- More actions can be added here -->
+    </div>
+
+    <div class="save-game-container">
+        <button onclick="saveGame()" class="save-game-button">
+            <img src="Image3.png" alt="Save Icon" class="save-icon"> <!-- Replace with your house icon path -->
+            Sauvegarder Partie
+        </button>
+    </div>
+    
+    
+
+    <script src="grid.js"></script> 
 </body>
 </html>
