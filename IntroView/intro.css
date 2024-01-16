@@ -1,0 +1,70 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .homepage {
+    background-image: url('img.png');
+    height: 100vh;
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .header {
+    margin: 40px 0;
+    font-size: 2.5rem;
+    color: #333;
+    text-shadow: 2px 2px 4px rgb(255, 234, 0);
+  }
+  .description {
+    margin: 50px auto;
+    font-size: xx-large;
+    color: #ece98b;
+    font-weight: bolder;
+    width: 50%;
+    text-align: justify;
+    background-color: rgba(0, 0, 0, 0.5); /* Arrière-plan semi-transparent noir */
+    padding: 20px; 
+    border-radius: 10px; /* Bords arrondis pour l'arrière-plan du texte */
+    box-shadow: 3px 3px 10px rgba(255, 246, 77, 0.91); /* Ombre portée pour le texte */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* Ombre portée pour le texte pour augmenter le contraste */
+  }
+  
+  
+  .button-container {
+    margin: 40px 0;
+  }
+  
+  button {
+    font-size: 1.25rem;
+    padding: 15px 30px;
+    cursor: pointer;
+    background-color: #fff64d;
+    color: #ff1e00;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease; /* Transition appliquée à toutes les propriétés /
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.2); / Ombre de boîte pour donner de la profondeur */
+  }
+  
+  button:hover {
+    background-color: #fff64d;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+  }
+  
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgb(118, 15, 15); 
+  }
+  
