@@ -1,5 +1,5 @@
 // Constante
-const numCase = 9;
+/*const numCase = 9;
 const cssGrid = 0.6;
 const lengthBetweenCell = 10;
 
@@ -45,7 +45,7 @@ class Graph {
     /**
      * Class constructor
      */
-    constructor() {
+    /*constructor() {
         this.graph = new Map();
     }
 
@@ -53,7 +53,7 @@ class Graph {
      * Add vertex to the graph
      * @param vertex
      */
-    addVertex(vertex) {
+    /*addVertex(vertex) {
         this.graph.set(vertex, new Set());
     }
 
@@ -62,7 +62,7 @@ class Graph {
      * @param vertex first vertex
      * @param node second vertex
      */
-    addEdge(vertex, node) {
+    /*addEdge(vertex, node) {
         if (this.graph.has(vertex) && this.graph.has(node)) {
             this.graph.get(vertex).add(node);
             this.graph.get(node).add(vertex);
@@ -105,7 +105,7 @@ class Graph {
      * @param vertex first vertex
      * @param node second vertex
      */
-    deleteEdge(vertex, node) {
+    /*deleteEdge(vertex, node) {
         if (this.graph.has(vertex) && this.graph.has(node)) {
             this.graph.get(vertex).delete(node);
             this.graph.get(node).delete(vertex);
@@ -115,7 +115,7 @@ class Graph {
     /**
      * Print the graph
      */
-    print() {
+    /*print() {
         for (let [key, value] of this.graph) {
             console.log(key, value);
         }
@@ -153,13 +153,13 @@ function buildVisibilityMatrice() {
     fillMatrix(0, 4, -1);
     fillMatrix(4, 5, 0);
     fillMatrix(5, 9, 1);
-}
+}*/
 
 /**
  * Initialize the graph
  * @returns {Graph} graph class initialized
  */
-function initGraph() {
+/*function initGraph() {
     let graph = new Graph();
     let matrice = []
 
@@ -202,7 +202,7 @@ function transformTwoIntegersInString(first, second) {
  * @param gapI gap index i
  * @param gapJ gap index j
  */
-function addOrientationEdgeGraph(graph, matrice, startI, startJ, endI, endJ, gapI, gapJ) {
+/*function addOrientationEdgeGraph(graph, matrice, startI, startJ, endI, endJ, gapI, gapJ) {
     for (let i = startI; i < endI; i++) {
         for (let j = startJ; j < endJ; j++) {
             graph.addEdge(matrice[i][j], matrice[i + gapI][j + gapJ]);
@@ -218,7 +218,7 @@ function addOrientationEdgeGraph(graph, matrice, startI, startJ, endI, endJ, gap
  * @param isFirstPlayer boolean to know if it's the first player
  * @returns {boolean} true if one way is possible, false otherwise
  */
-function verifyPossibilityWay(graph, cellX, cellY, isFirstPlayer) {
+/*function verifyPossibilityWay(graph, cellX, cellY, isFirstPlayer) {
     let vertex = transformTwoIntegersInString(cellX, cellY);
     let visited = new Map();
 
@@ -325,4 +325,4 @@ function initCanvas(canvas) {
     canvas.width = longueur * cssGrid;
     canvas.height = hauteur * cssGrid;
     createGrid(canvas);
-}
+}*/
