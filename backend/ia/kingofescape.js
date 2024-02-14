@@ -2,13 +2,15 @@
 
 let aiPlay;
 let graph;
+let oldPositionOtherPlayer = undefined;
+let currentPositionOtherPlayer = undefined;
+let currentPositionIA = undefined;
 
 // Classes
 
 class Graph {
     constructor() {
         this.#initGraph();
-
     }
 
     #initGraph() {
@@ -100,12 +102,40 @@ class Graph {
                 this.deleteEdgeMap(mapTest, position2, position4);
             }
 
-            if (verifyPossibilityWay(mapTest, positionIAPlayer, aiPlay === 1) &&
-                (positionOtherPlayer !== undefined && verifyPossibilityWay(mapTest, positionOtherPlayer, false))) {
+            if (this.verifyPossibilityWay(mapTest, positionIAPlayer, aiPlay === 1) &&
+                (positionOtherPlayer !== undefined && this.verifyPossibilityWay(mapTest, positionOtherPlayer, false))) {
                 return true;
             }
             return true;
         }
+    }
+
+    verifyPossibilityWay(map, vertex, isFirstPlayer) {
+        let visited = new Map();
+
+        for (let [key] of map) {
+            visited.set(key, false);
+        }
+
+        let queue = [];
+        queue.push(vertex);
+        visited.set(vertex, true);
+
+        while (queue.length !== 0) {
+            let s = queue.pop();
+
+            if ((isFirstPlayer && s[1] === 9) || (!isFirstPlayer && s[1] === 1))
+                return true;
+
+            for (let value of map.get( s)) {
+                if (!visited.get(value)) {
+                    visited.set(value, true);
+                    queue.push(value);
+                }
+            }
+        }
+
+        return false;
     }
 
     addWall(position, isVertical) {
@@ -134,6 +164,18 @@ class Graph {
 }
 
 // Private functions
+function getPositionPlayer(board) {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (board[i][j] === 1) {
+                currentPositionIA = String((j + 1) * 10 + (9 - i))
+            }
+            else if (board[i][j] === 2) {
+                currentPositionOtherPlayer = String((j + 1) * 10 + (9 - i))
+            }
+        }
+    }
+}
 
 
 
@@ -141,12 +183,27 @@ class Graph {
 
 function setup(AIplay) {
     aiPlay = AIplay;
-    graph = new Graph();
-    console.log(graph);
+    //graph = new Graph();
     return '11';
 }
 
 function nextMove(gameState) {
+    oldPositionOtherPlayer = currentPositionOtherPlayer;
+    getPositionPlayer(gameState.board);
+
+    // Pour tester le temps d'exécution
+    /*var t0 = performance.now();
+    let timeRestant = 200;
+    let i = 0;
+    while (timeRestant > 0) {
+        i++;
+        graph.verifyPossibilityWay(graph.graph, '11', true);
+        var t1 = performance.now();
+        timeRestant = 200 - (t1 - t0);
+    }
+
+    console.log("number", i);*/
+
     return {action: "move", value: '11'};
 }
 
