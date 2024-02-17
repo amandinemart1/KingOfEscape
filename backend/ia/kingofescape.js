@@ -138,8 +138,8 @@ class Graph {
         let numberPosition1 = Number.parseInt(position);
         let position1 = position;
         let position2 = String(numberPosition1 + 10);
-        let position3 = String(numberPosition1 + 1);
-        let position4 = String(numberPosition1 + 11);
+        let position3 = String(numberPosition1 - 1);
+        let position4 = String(numberPosition1 + 9);
 
         if (isVertical === "1") {
             this.deleteEdgeMap(this.graph, position1, position2);
@@ -325,7 +325,8 @@ function correction(rightMove) {
 }
 
 function updateBoard(gameState) {
-    console.log("Update board called",gameState);
+    // console.log("Update board called",gameState);
+    console.log(graph);
     if (ownWalls.length < gameState.ownWalls.length) {
         for (let i = 0; i < gameState.ownWalls.length; i++) {
             if (ownWalls.indexOf(gameState.ownWalls[i]) === -1) {
