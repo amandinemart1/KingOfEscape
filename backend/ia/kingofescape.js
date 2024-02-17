@@ -4,6 +4,7 @@ let graph;
 let oldPositionOtherPlayer = undefined;
 let currentPositionOtherPlayer = undefined;
 let currentPositionIA = undefined;
+let currentTurn = 1;
 
 /*class GameState {
     constructor(opponentWalls, ownWalls, board) {
@@ -244,7 +245,7 @@ class Graph {
 }
 
 // Private functions
-function getPositionPlayer(board) {
+/*function getPositionPlayer(board) {
     if (!board || !Array.isArray(board) || board.length !== 9) {
         throw new Error("Invalid board format for getting player positions.");
     }
@@ -463,24 +464,130 @@ let gameState = new GameState(
         [0, -1, 0, -1, 0, -1, 0, -1, 0],
         [-1, 0, -1, 0, -1, 2, -1, 0, -1]
     ]
-);
+);*/
+
+function heuristicPositionPlayer(positionIAPlayer, aiPlay) {
+    if (currentTurn <= 3) {
+        return firstsMoves();
+    }
+    else {
+        newPositionIAPlayer = shortestPath(positionIAPlayer,aiPlay);
+        return {action: "move", value: newPositionIAPlayer};
+    
+    }
+}
+
+function shortestPath(positionIAPlayer, aiPlay) {
+    let distances = new Map();
+    let previous = new Map();
+    let visited = new Set();
+    if (aiPlay === 1) {
+        positionGoal = '69'
+    }
+    else {
+        positionGoal = '41' 
+    }
+
+    // Initialisation des distances avec une valeur infinie sauf pour la position du joueur
+    graph.graph.forEach((_, vertex) => {
+        distances.set(vertex, Infinity);
+    });
+    distances.set(positionIAPlayer, 0);
+
+    // Algorithme de Dijkstra
+    while (visited.size < graph.graph.size) {
+        let minVertex = null;
+        let minDistance = Infinity;
+
+        // Trouver le prochain sommet non visité avec la plus petite distance
+        graph.graph.forEach((_, vertex) => {
+            if (!visited.has(vertex) && distances.get(vertex) < minDistance) {
+                minVertex = vertex;
+                minDistance = distances.get(vertex);
+            }
+        });
+
+        if (minVertex === null) {
+            break;
+        }
+
+        // Marquer le sommet comme visité
+        visited.add(minVertex);
+
+        // Mettre à jour les distances des voisins non visités
+        graph.graph.get(minVertex).forEach(neighbor => {
+            if (!visited.has(neighbor)) {
+                let distance = distances.get(minVertex) + 1; // Poids de l'arête = 1 dans ce cas
+                if (distance < distances.get(neighbor)) {
+                    distances.set(neighbor, distance);
+                    previous.set(neighbor, minVertex);
+                }
+            }
+        });
+    }
+
+    // Reconstitution du chemin le plus court jusqu'à la case 69
+    let path = [];
+    let vertex = positionGoal; 
+    while (vertex !== positionIAPlayer) {
+        path.unshift(vertex);
+        vertex = previous.get(vertex);
+    }
+    path.unshift(positionIAPlayer);
+
+    console.log("Shortest Path:", path);
+    return path[1];
+}
+
+
+
+function firstsMoves() {
+    if (aiPlay === 1) {
+        if (currentTurn === 1) {
+            return {action: "wall",value:['49','0']};
+        }
+        else if (currentTurn === 2) {
+            return {action: "wall", value: ['28','0']};
+        }
+        else if (currentTurn === 3) {
+            return {action: "wall", value: ['78','0']};
+        }
+    }
+    else {
+        if (currentTurn === 1) {
+            return {action: "wall",value: ['52','0']};
+        }
+        else if (currentTurn === 2) {
+            return {action: "wall", value: ['73','0']};
+        }
+        else if (currentTurn === 3) {
+            return {action: "wall", value: ['24','0']};
+        }
+    }
+}
+
 
 aiPlay = 1; // Set AI as player 1 for testing
 graph = new Graph(); // Initialize the graph object
-let bestMove = minimaxAgent(1, gameState); // Suppose the AI plays as player 1
-console.log("Best Move chosen by Minimax:", bestMove);
+//let bestMove = minimaxAgent(1, gameState); // Suppose the AI plays as player 1
+//console.log("Best Move chosen by Minimax:", bestMove);
 
 // Public functions
 function setup(AIplay) {
     aiPlay = AIplay;
-    return '11';
+    if (aiPlay === 1) {
+        currentPositionIA = '49';
+    }
+    else {
+        currentPositionIA = '61';
+    }
+    return currentPositionIA;
 }
 
 function nextMove(gameState) {
     oldPositionOtherPlayer = currentPositionOtherPlayer;
     //getPositionPlayer(gameState.board);
-
-    return { action: "move", value: '11' };
+    return heuristicPositionPlayer(currentPositionIA, aiPlay);
 }
 
 function correction(rightMove) {
@@ -488,6 +595,8 @@ function correction(rightMove) {
 }
 
 function updateBoard(gameState) {
+    console.log("Update board called",gameState);
+    currentTurn ++; 
     return true;
 }
 

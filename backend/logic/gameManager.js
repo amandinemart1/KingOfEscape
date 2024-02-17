@@ -25,6 +25,7 @@ class GameManager {
         };
 
         let move = nextMove(gameState);
+        console.log("move", move);
 
         if (move.action === "move") {
             if (!this.moveCharacters(move.value)) {
