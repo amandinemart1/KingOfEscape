@@ -27,11 +27,11 @@ socket.on('connect', () => {
 
         if (data.ia.action === 'move') {
             if (data.position !== undefined) {
-                printPlayer(data.ia.value, aiPlay === 2);
+                printPlayer(data.ia.value, aiPlay !== 2);
             }
         }
         else {
-            printWall(data.ia.value, aiPlay === 2);
+            printWall(data.ia.value, aiPlay !== 2);
         }
 
         window.alert('C\'est à vous de jouer');
@@ -60,7 +60,7 @@ function placeWall(idDiv) {
     let letter = split[0];
     let x = Number.parseInt(split[2]);
     let y = Number.parseInt(split[1]);
-    let wall = {action: "wall", value: [String(y * 10 + x), letter === 'V'? 1 : 0]};
+    let wall = {action: "wall", value: [String(y * 10 + x), letter === 'V'? '1' : '0']};
     socket.emit('placeWall', wall);
 }
 
