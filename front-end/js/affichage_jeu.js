@@ -46,7 +46,7 @@ function printWall(wall, isPlayerOne) {
     let div2;
     let div3 = document.getElementById('O ' + y + ' ' + x);
 
-    if (wall[1]) {
+    if (wall[1] === "1") {
         div1 = document.getElementById('V ' + y + ' ' + x);
         div2 = document.getElementById('V ' + String(Number.parseInt(y) + 1) + ' ' + x);
     }
