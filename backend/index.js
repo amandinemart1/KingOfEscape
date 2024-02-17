@@ -2,13 +2,8 @@
 const http = require('http');
 const fileQuery = require('./queryManagers/front.js');
 const apiQuery = require('./queryManagers/api.js');
-const kingofescape = require('./ia/kingofescape.js');
-
-// Verify that functions are working
-console.log(kingofescape.setup(1));
-console.log(kingofescape.nextMove(3));
-console.log(kingofescape.correction(4));
-console.log(kingofescape.updateBoard(4));
+const { initSocket } = require('./ia/gestionSocket.js').initSocket;
+const { Server } = require("socket.io");
 
 const server = http.createServer(function (request, response) {
 
@@ -34,3 +29,11 @@ const server = http.createServer(function (request, response) {
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 }).listen(8000);
+
+const io = new Server(server, {
+    cors: {
+        origin: "*", methods: ["GET", "POST", "PUT", "PATCH"], allowedHeaders: "*", credentials: true
+    }
+});
+
+initSocket(io);

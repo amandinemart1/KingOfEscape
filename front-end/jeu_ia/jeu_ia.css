@@ -1,0 +1,147 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: grid;
+    grid-template-rows: 10% 90%;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #FFF2E3;
+    /*background-image: url('../jeu_local/background.jpg');*/ /* Add your image URL here */
+    background-size: cover; /* Cover the entire body */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image in the body */
+}
+
+#content {
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    grid-row: 2 / 3;
+}
+
+#center {
+    display: grid;
+    grid-template-rows: 20% 60% 20%;
+    grid-column: 2 / 3;
+}
+
+#jeu {
+    display: grid;
+    grid-template-columns: 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr;
+    grid-template-rows: 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr 1fr 4fr;
+    grid-row: 2 / 3;
+    height: 100%;
+    width: 100%;
+}
+
+#jeu > div {
+    border: 1px solid black;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#right {
+    display: grid;
+    grid-template-rows: 20% 60% 20%;
+    grid-column: 3 / 4;
+    height: 100%;
+    width: 100%;
+}
+
+#right > div {
+    grid-row: 2 / 3;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#saveGame {
+    width: 100%;
+    height: 40%;
+}
+
+#endTurn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 20%;
+}
+
+#buttonEndTurn {
+    align-self: center;
+    font-size: 130%;
+    border-radius: 30px;
+    background-color: #F5F5F5;
+    border: 3px solid #ECD6BC;
+    display: inline-block;
+    width: 50%;
+    height: 50%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#barreJeu {
+    width: 40%;
+    height: 100%;
+}
+
+#parametre {
+    width: 10%;
+}
+
+#notification {
+    width: 10%;
+}
+
+#login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+
+#buttonLogin {
+    font-size: 130%;
+    border-radius: 30px;
+    background-color: #F5F5F5;
+    border: 3px solid #ECD6BC;
+    display: inline-block;
+    width: 50%;
+    height: 50%;
+}
+
+.player1 {
+    background-color: #ff0000;
+    border-radius: 100%;
+    height: 60%;
+    width: 60%;
+    align-self: center;
+}
+
+.player2 {
+    background-color: #0000ff;
+    border-radius: 100%;
+    height: 60%;
+    width: 60%;
+    align-self: center;
+}
+
+.wallPlayer1 {
+    background-color: #ff0000;
+}
+
+.wallPlayer2 {
+    background-color: #0000ff;
+}
+

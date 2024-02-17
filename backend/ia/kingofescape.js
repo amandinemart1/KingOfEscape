@@ -5,7 +5,7 @@ let oldPositionOtherPlayer = undefined;
 let currentPositionOtherPlayer = undefined;
 let currentPositionIA = undefined;
 
-class GameState {
+/*class GameState {
     constructor(opponentWalls, ownWalls, board) {
         this.opponentWalls = opponentWalls;
         this.ownWalls = ownWalls;
@@ -66,7 +66,7 @@ const move = {
             throw new Error("Invalid action type");
         }
     }
-};
+};*/
 
 // Classes
 class Graph {
@@ -189,17 +189,19 @@ class Graph {
 
         let queue = [];
         queue.push(vertex);
-        visited.set(vertex, true);
-
         while (queue.length !== 0) {
             let s = queue.pop();
 
-            if ((isFirstPlayer && s[1] === 9) || (!isFirstPlayer && s[1] === 1)) return true;
+            if (!visited.get(s)) {
+                visited.set(s, true);
 
-            for (let value of map.get(s)) {
-                if (!visited.get(value)) {
-                    visited.set(value, true);
-                    queue.push(value);
+                if ((isFirstPlayer && s[1] === "9") || (!isFirstPlayer && s[1] === "1"))
+                    return true;
+
+                for (let value of map.get(s)) {
+                    if (!visited.get(value)) {
+                        queue.push(value);
+                    }
                 }
             }
         }
@@ -476,7 +478,7 @@ function setup(AIplay) {
 
 function nextMove(gameState) {
     oldPositionOtherPlayer = currentPositionOtherPlayer;
-    getPositionPlayer(gameState.board);
+    //getPositionPlayer(gameState.board);
 
     return { action: "move", value: '11' };
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page jeu</title>
+    <link rel="stylesheet" href="./jeu_ia.css">
+    <script src="../js/socket.io.js"></script>
+</head>
+<body>
+<header>
+    <div id="parametre"></div>
+    <div id="notification"></div>
+    <div id="barreJeu"></div>
+    <div id="login">
+        <button id="buttonLogin">Login</button>
+    </div>
+</header>
+<div id="content">
+    <div id="center">
+        <div id="jeu">
+        </div>
+    </div>
+    <div id="right">
+        <div>
+            <div id="saveGame"></div>
+            <div id="endTurn">
+                <button id="buttonEndTurn">Fin tour</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./jeu_ia.js" type="module"></script>
+<script type="module">
+    import {endTurn} from "./jeu_ia.js";
+    document.getElementById("buttonEndTurn").onclick = endTurn;
+</script>
+</body>
+</html>
