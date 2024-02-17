@@ -29,7 +29,9 @@ class GameManager {
 
         if (move.action === "move") {
             if (!this.moveCharacters(move.value)) {
-                let movePossible = getMovements(this.gameState1.position, this.graphe, this.gameState2.position);
+                let gameState = this.isPlayerOne() ? this.gameState1 : this.gameState2;
+                let gameStateOther = this.isPlayerOne() ? this.gameState2 : this.gameState1;
+                let movePossible = getMovements(gameState.position, this.graphe, gameStateOther.position);
                 this.moveCharacters(movePossible[0]);
                 move.value = movePossible[0];
                 correction(movePossible[0]);
@@ -37,7 +39,9 @@ class GameManager {
         }
         else {
             if (!this.placeWall(move.value)) {
-                let movePossible = getMovements(this.gameState1.position, this.graphe, this.gameState2.position);
+                let gameState = this.isPlayerOne() ? this.gameState1 : this.gameState2;
+                let gameStateOther = this.isPlayerOne() ? this.gameState2 : this.gameState1;
+                let movePossible = getMovements(gameState.position, this.graphe, gameStateOther.position);
                 move.action = "move";
                 move.value = movePossible[0];
                 this.moveCharacters(movePossible[0]);
@@ -88,7 +92,7 @@ class GameManager {
             let isAdded = this.graphe.addWall(wall[0], wall[1], coordinatePlayer1, coordinatePlayer2, isPlayerOne);
 
             if (isAdded) {
-                gameStateActual.addWall(wall[0], wall[1]);
+                gameStateActual.addWall(wall);
                 this.actionRealise = wall;
                 this.visibilityMatrix.updateMatrixWall(wall[0], isPlayerOne);
                 return true;
