@@ -61,10 +61,10 @@ class GraphGameManager {
         let boolVerify3 = this.verifyEdge(tuple1, tuple3);
         let boolVerify4 = this.verifyEdge(tuple2, tuple4);
 
-        if (isVertical === "1" && boolVerify1 && boolVerify2 && !(!boolVerify3 && !boolVerify4)) {
+        if (isVertical === 1 && boolVerify1 && boolVerify2 && !(!boolVerify3 && !boolVerify4)) {
             return true;
         }
-        else if (isVertical === "0" && boolVerify3 && boolVerify4 && !(!boolVerify1 && !boolVerify2)) {
+        else if (isVertical === 0 && boolVerify3 && boolVerify4 && !(!boolVerify1 && !boolVerify2)) {
             return true;
         }
 
@@ -83,7 +83,7 @@ class GraphGameManager {
         if (this.#verifyPossibilityToPlace(position1, position2, position3, position4, isVertical)) {
             let mapTest = new Map(this.graph);
 
-            if (isVertical === "1") {
+            if (isVertical === 1) {
                 this.deleteEdgeMap(mapTest, position1, position2);
                 this.deleteEdgeMap(mapTest, position3, position4);
             }
@@ -134,7 +134,7 @@ class GraphGameManager {
         let position4 = String(numberPosition1 + 9);
 
         if (this.isPossibleToPlaceWall(position, isVertical, player1, player2, isFirstPlayer)) {
-            if (isVertical === "1") {
+            if (isVertical === 1) {
                 this.deleteEdgeMap(this.graph, position1, position2);
                 this.deleteEdgeMap(this.graph, position3, position4);
             }

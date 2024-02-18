@@ -60,7 +60,7 @@ function placeWall(idDiv) {
     let letter = split[0];
     let x = Number.parseInt(split[2]);
     let y = Number.parseInt(split[1]);
-    let wall = {action: "wall", value: [String(y * 10 + x), letter === 'V'? '1' : '0']};
+    let wall = {action: "wall", value: [String(y * 10 + x), letter === 'V'? 1 : 0]};
     socket.emit('placeWall', wall);
 }
 
