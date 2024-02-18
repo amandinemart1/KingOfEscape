@@ -287,6 +287,15 @@ function firstsMoves() {
     }
 }
 
+function getPositionIA(gameState) {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (gameState.board[i][j] === 1) {
+                return String((j + 1) * 10 + (9 - i));
+            }
+        }
+    }
+}
 
 aiPlay = 1; // Set AI as player 1 for testing
 graph = new Graph(); // Initialize the graph object
@@ -326,7 +335,9 @@ function correction(rightMove) {
 
 function updateBoard(gameState) {
     // console.log("Update board called",gameState);
-    console.log(graph);
+    console.log("avant Update", currentPositionIA);
+    currentPositionIA = getPositionIA(gameState);
+    console.log("apres Update", currentPositionIA);
     if (ownWalls.length < gameState.ownWalls.length) {
         for (let i = 0; i < gameState.ownWalls.length; i++) {
             if (ownWalls.indexOf(gameState.ownWalls[i]) === -1) {
@@ -335,6 +346,7 @@ function updateBoard(gameState) {
             }
         }
     }
+
 
     currentTurn ++; 
     return true;

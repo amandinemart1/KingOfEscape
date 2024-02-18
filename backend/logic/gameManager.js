@@ -73,7 +73,7 @@ class GameManager {
         board[9 - Number.parseInt(iaPosition[1])][Number.parseInt(iaPosition[0]) - 1] = 1;
 
         if (this.getOtherPlayer(this.aiPlay === 1) !== undefined) {
-            let otherPlayerPosition = this.gameState2.position;
+            let otherPlayerPosition = this.aiPlay === 1 ? this.gameState2.position : this.gameState1.position;
             board[9 - Number.parseInt(otherPlayerPosition[1])][Number.parseInt(otherPlayerPosition[0]) - 1] = 2;
         }
 
