@@ -387,7 +387,7 @@ function nextMoveIA(gameState) {
 }
 
 function updateBoardIA(gameState) {
-    getPositionIA(gameState, false);
+    getPositionIA(gameState, true);
     addAllWallInTab(gameState.ownWalls, ownWalls);
     currentTurn ++;
     return true;
@@ -403,12 +403,11 @@ function setup(AIplay) {
 }
 
 function nextMove(gameState) {
-    /*return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(nextMoveIA(gameState));
         }, 200);
-    });*/
-    return nextMoveIA(gameState);
+    });
 }
 
 function correction(rightMove) {
