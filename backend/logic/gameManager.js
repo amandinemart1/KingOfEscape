@@ -5,13 +5,28 @@ const {VisibilityMatrix} = require('./visibilityMatrix.js').visibilityMatrix;
 
 class GameManager {
     constructor(positionPlayer, AIPlay) {
-        let position1 = (AIPlay === 1) ? setup(AIPlay) : positionPlayer;
-        let position2 = (AIPlay === 2) ? setup(AIPlay) : positionPlayer;
-        this.gameState1 = new GameState(position1);
-        this.gameState2 = new GameState(position2);
+        if (AIPlay === 1) {
+            setup(AIPlay).then((position) => {
+                console.log("position", position);
+                let position1 = position;
+                let position2 = positionPlayer;
+                this.gameState1 = new GameState(position1);
+                this.gameState2 = new GameState(position2);
+                this.visibilityMatrix = new VisibilityMatrix(position1, position2);
+            });
+        }
+        else {
+            setup(AIPlay).then((position) => {
+                let position1 = positionPlayer;
+                let position2 = position;
+                this.gameState1 = new GameState(position1);
+                this.gameState2 = new GameState(position2);
+                this.visibilityMatrix = new VisibilityMatrix(position1, position2);
+            });
+        }
+
         this.graphe = new GraphGameManager();
         this.actionRealise = undefined;
-        this.visibilityMatrix = new VisibilityMatrix(position1, position2);
         this.aiPlay = AIPlay;
     }
 
@@ -33,7 +48,9 @@ class GameManager {
                 let movePossible = getMovements(gameState.position, this.graphe, gameStateOther.position);
                 this.moveCharacters(movePossible[0]);
                 move.value = movePossible[0];
-                correction(movePossible[0]);
+                correction(movePossible[0]).then((res) => {
+                    console.log("updateBoard", res);
+                });
             }
         }
         else {
@@ -54,7 +71,9 @@ class GameManager {
             ownWalls: this.aiPlay === 1 ? this.gameState1.ownWall : this.gameState2.ownWall,
             board: board
         };
-        updateBoard(gameState);
+        updateBoard(gameState).then((res) => {
+            console.log("updateBoard", res);
+        });
         this.update(this.isPlayerOne());
         return move;
     }

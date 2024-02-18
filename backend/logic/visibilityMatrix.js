@@ -61,17 +61,17 @@ class VisibilityMatrix {
         let multiply = isPlayerOne ? 1 : -1;
         let valueCoordinateX = [1, 0, -1, 0, 0];
         let valueCoordinateY = [0, 1, 0, -1, 0];
-        let oldCoordinateX = oldCoordinate[1] - 1;
-        let oldCoordinateY = oldCoordinate[0] - 1;
-        let newCoordinateX = newCoordinate[1] - 1;
-        let newCoordinateY = newCoordinate[0] - 1;
+        let oldCoordinateX = Number.parseInt(oldCoordinate[1]);
+        let oldCoordinateY = Number.parseInt(oldCoordinate[0]);
+        let newCoordinateX = Number.parseInt(newCoordinate[1]);
+        let newCoordinateY = Number.parseInt(newCoordinate[0]);
 
         for (let i = 0; i < 5; i++) {
-            this.updateMatrixValue(oldCoordinateY + valueCoordinateY[i], oldCoordinateX + valueCoordinateX[i], multiply);
+            this.updateMatrixValue(oldCoordinateX + valueCoordinateX[i], oldCoordinateY + valueCoordinateY[i], -multiply);
         }
 
         for (let i = 0; i < 5; i++) {
-            this.updateMatrixValue(newCoordinateY + valueCoordinateY[i], newCoordinateX + valueCoordinateX[i], -multiply);
+            this.updateMatrixValue(newCoordinateX + valueCoordinateX[i], newCoordinateY + valueCoordinateY[i] , multiply);
         }
     }
 

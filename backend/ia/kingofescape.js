@@ -357,9 +357,7 @@ function addAllWallInTab(tabGameState, tab) {
     }
 }
 
-
-// Public functions
-function setup(AIplay) {
+function setupIA(AIplay) {
     aiPlay = AIplay;
     if (aiPlay === 1) {
         currentPositionIA = '41';
@@ -379,7 +377,7 @@ function setup(AIplay) {
     return currentPositionIA;
 }
 
-function nextMove(gameState) {
+function nextMoveIA(gameState) {
     oldPositionOtherPlayer = currentPositionOtherPlayer;
     currentPositionOtherPlayer = undefined;
 
@@ -388,15 +386,44 @@ function nextMove(gameState) {
     return heuristicPositionPlayer(currentPositionIA, aiPlay);
 }
 
-function correction(rightMove) {
-    return true;
-}
-
-function updateBoard(gameState) {
+function updateBoardIA(gameState) {
     getPositionIA(gameState, false);
     addAllWallInTab(gameState.ownWalls, ownWalls);
     currentTurn ++;
     return true;
+}
+
+// Public functions
+function setup(AIplay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(setupIA(AIplay));
+        }, 1000);
+    });
+}
+
+function nextMove(gameState) {
+    /*return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(nextMoveIA(gameState));
+        }, 200);
+    });*/
+    return nextMoveIA(gameState);
+}
+
+function correction(rightMove) {
+    return new Promise(((resolve, reject) => {
+        setTimeout(() => {
+            resolve(true);
+        }, 50)}));
+}
+
+function updateBoard(gameState) {
+    return new Promise(((resolve, reject) => {
+        setTimeout(() => {
+            console.log("Update board called");
+            resolve(updateBoardIA(gameState));
+        }, 50)}));
 }
 
 // exports
