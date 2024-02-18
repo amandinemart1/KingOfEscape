@@ -65,9 +65,9 @@ class Graph {
         let boolVerify3 = this.verifyEdge(tuple1, tuple3);
         let boolVerify4 = this.verifyEdge(tuple2, tuple4);
 
-        if (isVertical === 1 && boolVerify1 && boolVerify2 && !(!boolVerify3 && !boolVerify4)) {
+        if (isVertical === "1" && boolVerify1 && boolVerify2 && !(!boolVerify3 && !boolVerify4)) {
             return true;
-        } else if (isVertical === 0 && boolVerify3 && boolVerify4 && !(!boolVerify1 && !boolVerify2)) {
+        } else if (isVertical === "0" && boolVerify3 && boolVerify4 && !(!boolVerify1 && !boolVerify2)) {
             return true;
         }
 
@@ -85,7 +85,7 @@ class Graph {
         if (this.#verifyPossibilityToPlace(position1, position2, position3, position4, isVertical)) {
             let mapTest = new Map(this.graph);
 
-            if (isVertical === 1) {
+            if (isVertical === "1") {
                 this.deleteEdgeMap(mapTest, position1, position2);
                 this.deleteEdgeMap(mapTest, position3, position4);
             } else {
@@ -141,7 +141,7 @@ class Graph {
         let position3 = String(numberPosition1 - 1);
         let position4 = String(numberPosition1 + 9);
 
-        if (isVertical === 1) {
+        if (isVertical === "1") {
             this.deleteEdgeMap(this.graph, position1, position2);
             this.deleteEdgeMap(this.graph, position3, position4);
         }
@@ -265,24 +265,24 @@ function shortestPath(positionIAPlayer, aiPlay) {
 function firstsMoves() {
     if (aiPlay === 1) {
         if (currentTurn === 1) {
-            return {action: "wall",value:['49',0]};
+            return {action: "wall",value:['49','0']};
         }
         else if (currentTurn === 2) {
-            return {action: "wall", value: ['28',0]};
+            return {action: "wall", value: ['28','0']};
         }
         else if (currentTurn === 3) {
-            return {action: "wall", value: ['77',0]};
+            return {action: "wall", value: ['78','0']};
         }
     }
     else {
         if (currentTurn === 1) {
-            return {action: "wall",value: ['52',0]};
+            return {action: "wall",value: ['52','0']};
         }
         else if (currentTurn === 2) {
-            return {action: "wall", value: ['73',0]};
+            return {action: "wall", value: ['73','0']};
         }
         else if (currentTurn === 3) {
-            return {action: "wall", value: ['24',0]};
+            return {action: "wall", value: ['24','0']};
         }
     }
 }
