@@ -65,9 +65,9 @@ class Graph {
         let boolVerify3 = this.verifyEdge(tuple1, tuple3);
         let boolVerify4 = this.verifyEdge(tuple2, tuple4);
 
-        if (isVertical === "1" && boolVerify1 && boolVerify2 && !(!boolVerify3 && !boolVerify4)) {
+        if (isVertical === 1 && boolVerify1 && boolVerify2 && !(!boolVerify3 && !boolVerify4)) {
             return true;
-        } else if (isVertical === "0" && boolVerify3 && boolVerify4 && !(!boolVerify1 && !boolVerify2)) {
+        } else if (isVertical === 0 && boolVerify3 && boolVerify4 && !(!boolVerify1 && !boolVerify2)) {
             return true;
         }
 
@@ -85,7 +85,7 @@ class Graph {
         if (this.#verifyPossibilityToPlace(position1, position2, position3, position4, isVertical)) {
             let mapTest = new Map(this.graph);
 
-            if (isVertical === "1") {
+            if (isVertical === 1) {
                 this.deleteEdgeMap(mapTest, position1, position2);
                 this.deleteEdgeMap(mapTest, position3, position4);
             } else {
@@ -103,6 +103,37 @@ class Graph {
         } else {
             return false;
         }
+    }
+
+    getAllPossibilityWalls(map, positionIAPlayer, positionOtherPlayer) {
+        let allPossibilityWalls = [];
+
+        let time = performance.now();
+        for (let [key, values] of map.entries()) {
+            let keyX = Number.parseInt(key[1]);
+            let keyY = Number.parseInt(key[0]);
+
+            for (let value of values) {
+                let valueX = Number.parseInt(value[1]);
+                let valueY = Number.parseInt(value[0]);
+                let wall;
+
+                if (keyX === valueX - 1) {
+                    wall = [key, 1];
+                }
+                else if (keyY === valueY + 1) {
+                    wall = [key, 0];
+                }
+
+                if (wall !== undefined) {
+                    allPossibilityWalls.push(wall);
+                }
+            }
+        }
+
+        console.log("Time to get all possibility walls:", performance.now() - time, "ms");
+        console.log("All possibility walls:", allPossibilityWalls.length);
+        return allPossibilityWalls;
     }
 
     verifyPossibilityWay(map, vertex, isFirstPlayer) {
@@ -141,7 +172,7 @@ class Graph {
         let position3 = String(numberPosition1 - 1);
         let position4 = String(numberPosition1 + 9);
 
-        if (isVertical === "1") {
+        if (isVertical === 1) {
             this.deleteEdgeMap(this.graph, position1, position2);
             this.deleteEdgeMap(this.graph, position3, position4);
         }
@@ -166,54 +197,27 @@ class Graph {
 }
 
 // Private functions
-/*function getPositionPlayer(board) {
-    if (!board || !Array.isArray(board) || board.length !== 9) {
-        throw new Error("Invalid board format for getting player positions.");
-    }
-
-    let currentPositionIA;
-    let currentPositionOtherPlayer;
-
-    for (let i = 0; i < 9; i++) {
-        for (let j = 0; j < 9; j++) {
-            if (board[i][j] === 1) {
-                currentPositionIA = String((j + 1) * 10 + (9 - i));
-            } else if (board[i][j] === 2) {
-                currentPositionOtherPlayer = String((j + 1) * 10 + (9 - i));
-            }
-        }
-    }
-
-    return { ia: currentPositionIA, opponent: currentPositionOtherPlayer };
-}*/
 
 function heuristicPositionPlayer(positionIAPlayer, aiPlay) {
     if (currentTurn <= 3) {
         return firstsMoves();
     }
     else {
-        newPositionIAPlayer = shortestPath(positionIAPlayer,aiPlay);
+        let newPositionIAPlayer = shortestPath(positionIAPlayer, aiPlay === 1? '69' : '41')[1];
         return {action: "move", value: newPositionIAPlayer};
-
     }
 }
 
-function shortestPath(positionIAPlayer, aiPlay) {
+function shortestPath(position, positionXToGoal) {
     let distances = new Map();
     let previous = new Map();
     let visited = new Set();
-    if (aiPlay === 1) {
-        positionGoal = '69'
-    }
-    else {
-        positionGoal = '41' 
-    }
 
     // Initialisation des distances avec une valeur infinie sauf pour la position du joueur
     graph.graph.forEach((_, vertex) => {
         distances.set(vertex, Infinity);
     });
-    distances.set(positionIAPlayer, 0);
+    distances.set(position, 0);
 
     // Algorithme de Dijkstra
     while (visited.size < graph.graph.size) {
@@ -249,15 +253,23 @@ function shortestPath(positionIAPlayer, aiPlay) {
 
     // Reconstitution du chemin le plus court jusqu'à la case 69
     let path = [];
-    let vertex = positionGoal; 
-    while (vertex !== positionIAPlayer) {
-        path.unshift(vertex);
-        vertex = previous.get(vertex);
-    }
-    path.unshift(positionIAPlayer);
 
-    console.log("Shortest Path:", path);
-    return path[1];
+    for (let i = 1; i < 10; i++) {
+        let p = [];
+        let vertex = i + positionXToGoal[1];
+
+        while (vertex !== position) {
+            p.unshift(vertex);
+            vertex = previous.get(vertex);
+        }
+
+        if (path.length === 0 || path.length > p.length) {
+            path = p;
+        }
+    }
+
+    path.unshift(position);
+    return path;
 }
 
 
@@ -265,42 +277,86 @@ function shortestPath(positionIAPlayer, aiPlay) {
 function firstsMoves() {
     if (aiPlay === 1) {
         if (currentTurn === 1) {
-            return {action: "wall",value:['49','0']};
+            return {action: "wall",value:['49', 0]};
         }
         else if (currentTurn === 2) {
-            return {action: "wall", value: ['28','0']};
+            return {action: "wall", value: ['28', 0]};
         }
         else if (currentTurn === 3) {
-            return {action: "wall", value: ['78','0']};
+            return {action: "wall", value: ['78', 0]};
         }
     }
     else {
         if (currentTurn === 1) {
-            return {action: "wall",value: ['52','0']};
+            return {action: "wall",value: ['53', 0]};
         }
         else if (currentTurn === 2) {
-            return {action: "wall", value: ['73','0']};
+            return {action: "wall", value: ['73', 0]};
         }
         else if (currentTurn === 3) {
-            return {action: "wall", value: ['24','0']};
+            return {action: "wall", value: ['24', 0]};
         }
     }
 }
 
-function getPositionIA(gameState) {
+function getPositionIA(gameState, getOpponent) {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             if (gameState.board[i][j] === 1) {
-                return String((j + 1) * 10 + (9 - i));
+                currentPositionIA = String((j + 1) * 10 + (9 - i));
+            }
+            else if (getOpponent && gameState.board[i][j] === 2) {
+                currentPositionOtherPlayer = String((j + 1) * 10 + (9 - i));
             }
         }
     }
 }
 
-aiPlay = 1; // Set AI as player 1 for testing
-graph = new Graph(); // Initialize the graph object
-//let bestMove = minimaxAgent(1, gameState); // Suppose the AI plays as player 1
-//console.log("Best Move chosen by Minimax:", bestMove);
+function getAllMovements(coordinate, graph, secondPlayerCoordinate) {
+    let x = Number.parseInt(coordinate[1]);
+    let y = Number.parseInt(coordinate[0]);
+    let movements = [];
+    let possibleMovements = [String(x + 1 + y * 10) , String(x + 2 + y * 10),
+        String((y + 1) * 10 + x), String((y + 2) * 10 + x),
+        String(x - 1 + y * 10), String(x - 2 + y * 10),
+        String((y - 1) * 10 + x), String((y - 2) * 10 + x)];
+
+    for (let i = 0; i < possibleMovements.length; i += 2) {
+        if (secondPlayerCoordinate !== undefined && possibleMovements[i] === secondPlayerCoordinate) {
+            if (graph.verifyEdge(secondPlayerCoordinate, possibleMovements[i + 1])) {
+                movements.push(possibleMovements[i + 1]);
+            }
+        }
+        else if (graph.verifyEdge(coordinate, possibleMovements[i])) {
+            movements.push(possibleMovements[i]);
+        }
+    }
+
+    return movements;
+}
+
+function verifyWallInTab(tab, wall) {
+    if (wall !== undefined) {
+        for (let i = 0; i < tab.length; i++) {
+            if (tab[i][0] === wall[0] && tab[i][1] === wall[1])
+                return true;
+        }
+    }
+
+    return false;
+}
+
+function addAllWallInTab(tabGameState, tab) {
+    if (tab.length < tabGameState.length) {
+        for (let i = 0; i < tabGameState.length; i++) {
+            if (!verifyWallInTab(ownWalls, tabGameState)) {
+                ownWalls.push(tabGameState[i]);
+                graph.addWall(tabGameState[i][0], tabGameState[i][1]);
+            }
+        }
+    }
+}
+
 
 // Public functions
 function setup(AIplay) {
@@ -311,21 +367,24 @@ function setup(AIplay) {
     else {
         currentPositionIA = '69';
     }
-    console.log("Setup called",aiPlay);
+
+    graph = new Graph();
+    oldPositionOtherPlayer = undefined;
+    currentPositionOtherPlayer = undefined;
+    currentTurn = 1;
+    ownWalls = [];
+    opponentWalls = [];
+
+    console.log("Setup called", aiPlay);
     return currentPositionIA;
 }
 
 function nextMove(gameState) {
     oldPositionOtherPlayer = currentPositionOtherPlayer;
-    if (opponentWalls.length < gameState.opponentWalls.length) {
-        for (let i = 0; i < gameState.opponentWalls.length; i++) {
-            if (opponentWalls.indexOf(gameState.opponentWalls[i]) === -1) {
-                opponentWalls.push(gameState.opponentWalls[i]);
-                graph.addWall(gameState.opponentWalls[i][0], gameState.opponentWalls[i][1]);
-            }
-        }
-    }
-    //getPositionPlayer(gameState.board);
+    currentPositionOtherPlayer = undefined;
+
+    getPositionIA(gameState, true);
+    addAllWallInTab(gameState.opponentWalls, opponentWalls);
     return heuristicPositionPlayer(currentPositionIA, aiPlay);
 }
 
@@ -334,21 +393,9 @@ function correction(rightMove) {
 }
 
 function updateBoard(gameState) {
-    // console.log("Update board called",gameState);
-    console.log("avant Update", currentPositionIA);
-    currentPositionIA = getPositionIA(gameState);
-    console.log("apres Update", currentPositionIA);
-    if (ownWalls.length < gameState.ownWalls.length) {
-        for (let i = 0; i < gameState.ownWalls.length; i++) {
-            if (ownWalls.indexOf(gameState.ownWalls[i]) === -1) {
-                ownWalls.push(gameState.ownWalls[i]);
-                graph.addWall(gameState.ownWalls[i][0], gameState.ownWalls[i][1]);
-            }
-        }
-    }
-
-
-    currentTurn ++; 
+    getPositionIA(gameState, false);
+    addAllWallInTab(gameState.ownWalls, ownWalls);
+    currentTurn ++;
     return true;
 }
 
